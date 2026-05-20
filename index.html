@@ -1828,6 +1828,93 @@ body.light-mode .story-inline-rating { border-color: rgba(26,22,18,0.10); }
 </head>
 <body>
 
+<!-- ── PASSWORD GATE ─────────────────────────────────────────────────── -->
+<div id="password-gate" style="
+  position: fixed; inset: 0; z-index: 99999;
+  background: #0e0c0a;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  font-family: 'Josefin Sans', sans-serif;
+">
+  <div style="text-align: center; padding: 2rem;">
+    <div style="
+      font-size: clamp(1.8rem, 5vw, 2.8rem);
+      font-weight: 200;
+      letter-spacing: 0.25em;
+      color: #f2ede6;
+      margin-bottom: 0.4rem;
+    ">(K)NEED</div>
+    <div style="
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      color: rgba(242,237,230,0.35);
+      margin-bottom: 2.5rem;
+      text-transform: uppercase;
+    ">Coming Soon</div>
+    <input
+      id="password-input"
+      type="password"
+      placeholder="Enter password"
+      onkeydown="if(event.key==='Enter')checkPassword()"
+      style="
+        background: rgba(242,237,230,0.06);
+        border: 1px solid rgba(242,237,230,0.15);
+        color: #f2ede6;
+        font-family: 'Josefin Sans', sans-serif;
+        font-size: 0.85rem;
+        letter-spacing: 0.15em;
+        padding: 0.75rem 1.25rem;
+        width: 240px;
+        outline: none;
+        border-radius: 2px;
+        text-align: center;
+        display: block;
+        margin: 0 auto 0.75rem;
+      "
+    />
+    <div id="password-error" style="
+      color: #c8833a;
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      height: 1rem;
+      margin-bottom: 0.75rem;
+    "></div>
+    <button
+      onclick="checkPassword()"
+      style="
+        background: transparent;
+        border: 1px solid rgba(242,237,230,0.3);
+        color: #f2ede6;
+        font-family: 'Josefin Sans', sans-serif;
+        font-size: 0.75rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        padding: 0.65rem 2rem;
+        cursor: pointer;
+        border-radius: 2px;
+      "
+    >Enter</button>
+  </div>
+</div>
+
+<script>
+  function checkPassword() {
+    const input = document.getElementById('password-input').value;
+    if (input === 'comma') {
+      document.getElementById('password-gate').style.display = 'none';
+      sessionStorage.setItem('kneed-auth', '1');
+    } else {
+      document.getElementById('password-error').textContent = 'Incorrect password';
+      document.getElementById('password-input').value = '';
+      document.getElementById('password-input').focus();
+    }
+  }
+  if (sessionStorage.getItem('kneed-auth') === '1') {
+    document.getElementById('password-gate').style.display = 'none';
+  }
+</script>
+<!-- ── END PASSWORD GATE ──────────────────────────────────────────────── -->
+
 <!-- HEADER -->
 <header class="site-header">
   <div class="header-bar">
