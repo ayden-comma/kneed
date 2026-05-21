@@ -1825,6 +1825,96 @@ body.light-mode .story-inline-rating { border-color: rgba(26,22,18,0.10); }
 @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes fadeIn  { from { opacity: 0; } to { opacity: 1; } }
 
+/* ══════════════════════════════════════════════════════════════════
+   MOBILE — max-width: 767px
+══════════════════════════════════════════════════════════════════ */
+@media (max-width: 767px) {
+
+  /* ── Root adjustments ── */
+  :root { --px: 1rem; --r-card: 0.875rem; --r-hero: 1rem; }
+
+  /* ── Header ── */
+  .header-bar { padding: 0.65rem var(--px); grid-template-columns: auto 1fr auto; gap: 0.5rem; }
+  .wf-logo svg { height: 1.6em !important; }
+  .site-nav { display: none !important; }
+  .submit-btn { display: none !important; }
+
+  /* ── Hero ── */
+  .hero-section { height: 80vh; min-height: 420px; border-radius: var(--r-hero); }
+  .hero-content { padding: 1.25rem; }
+  .hero-eyebrow { font-size: 0.6rem; }
+  .hero-title { font-size: clamp(1.6rem, 7vw, 2.4rem) !important; line-height: 1.15; }
+  .hero-desc { font-size: 0.82rem; -webkit-line-clamp: 3; display: -webkit-box; -webkit-box-orient: vertical; overflow: hidden; }
+  .hero-actions { gap: 0.5rem; flex-wrap: wrap; }
+
+  /* ── Grids → single column ── */
+  .grid-4 { grid-template-columns: 1fr !important; gap: 0.875rem !important; }
+  .grid-3 { grid-template-columns: 1fr !important; gap: 0.875rem !important; }
+  .grid-2 { grid-template-columns: 1fr !important; gap: 0.875rem !important; }
+
+  /* ── Asymmetric story layout ── */
+  .story-asym { grid-template-columns: 1fr !important; }
+  .asym-7, .asym-5 { grid-column: span 1 !important; }
+
+  /* ── Tiles ── */
+  .tile-body { padding: 0.875rem; }
+  .tile-title { font-size: 1rem; }
+  .tile-meta { font-size: 0.65rem; }
+
+  /* ── Section headings ── */
+  .section-head { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+  .section-title { font-size: clamp(1.1rem, 5vw, 1.5rem); }
+
+  /* ── Story page ── */
+  .story-layout { grid-template-columns: 1fr !important; }
+  .story-nav-rail { display: none; }
+  .story-share-rail { display: none; }
+  .story-video-block { padding: 0 !important; border-radius: var(--r-card); overflow: hidden; }
+  .story-headline { font-size: clamp(1.4rem, 6vw, 2rem); }
+  .story-body { font-size: 0.92rem; }
+  .story-meta-bar { flex-wrap: wrap; gap: 0.5rem; }
+
+  /* ── Map page ── */
+  .map-teaser { grid-template-columns: 1fr !important; }
+  #sv-story-map { height: 240px !important; }
+  .map-card-list { max-height: 300px; }
+
+  /* ── Discovery grid ── */
+  .discovery-grid { grid-template-columns: 1fr !important; }
+  .discovery-featured { grid-template-columns: 1fr !important; }
+
+  /* ── Newsletter ── */
+  .newsletter-grid { grid-template-columns: 1fr !important; }
+  .nl-form { flex-direction: column !important; }
+  .nl-input { width: 100%; }
+
+  /* ── Footer ── */
+  .footer-inner { grid-template-columns: 1fr 1fr !important; gap: 2rem 1rem; }
+  .footer-brand svg { height: 1.4rem !important; }
+  .footer-bottom { flex-direction: column; text-align: center; gap: 0.5rem; }
+
+  /* ── Auth modal ── */
+  .auth-panel { padding: 1.5rem 1.25rem; width: calc(100vw - 2rem); max-width: 100%; border-radius: var(--r-card); }
+  .auth-logo svg { height: 1.4rem !important; }
+
+  /* ── General spacing ── */
+  .py-page { padding-top: 2rem; padding-bottom: 3rem; }
+  .mt-section { margin-top: 2.5rem; }
+
+  /* ── Scrollable rows ── */
+  .scroll-row { gap: 0.75rem; }
+  .scroll-row .wf-tile { min-width: 80vw; }
+
+  /* ── Burger menu ── */
+  .menu-panel { width: 100vw; max-width: 100vw; }
+}
+
+/* ── Small phones (max 380px) ── */
+@media (max-width: 380px) {
+  .hero-title { font-size: 1.4rem !important; }
+  .scroll-row .wf-tile { min-width: 90vw; }
+}
+
 </style>
 
 <!-- ── GOOGLE SEARCH CONSOLE VERIFICATION ───────────────────────────── -->
