@@ -3550,7 +3550,7 @@ function showStory(index) {
   currentStoryIndex = index;
   const s = STORIES[index];
   const poster = document.getElementById('sv-poster');
-  if (poster) { poster.src = s.image; poster.alt = s.title; poster.classList.remove('is-hidden'); }
+  if (poster) { poster.src = s.image; poster.alt = s.title; poster.classList.remove('is-hidden'); poster.style.display = ''; }
   // Clear any existing YouTube iframe
   const existingIframe = document.getElementById('sv-yt-iframe');
   if (existingIframe) existingIframe.remove();
@@ -3558,7 +3558,7 @@ function showStory(index) {
   if (video) { video.src = ''; video.style.opacity = '0'; }
   isPlaying = false; fakeSeconds = 0; stopFakeProgress();
   const playBtn = document.getElementById('sv-play-btn');
-  if (playBtn) playBtn.classList.remove('is-hidden');
+  if (playBtn) { playBtn.classList.remove('is-hidden'); playBtn.style.display = ''; }
   const vcSvg = document.getElementById('vc-play-svg');
   if (vcSvg) vcSvg.innerHTML = '<polygon points="6,4 20,12 6,20"/>';
   const fill = document.getElementById('vc-fill');
@@ -3727,13 +3727,14 @@ function togglePlay() {
 
     // If this story has a YouTube video, embed it
     if (window._currentVideoId) {
-      if (playBtn) playBtn.classList.add('is-hidden');
-      if (poster) poster.classList.add('is-hidden');
+      // Fully remove overlay elements so YouTube UI shows cleanly
+      if (playBtn) playBtn.style.display = 'none';
+      if (poster) poster.style.display = 'none';
       const wrap = document.querySelector('.story-video-wrap');
       if (wrap && !document.getElementById('sv-yt-iframe')) {
         const iframe = document.createElement('iframe');
         iframe.id = 'sv-yt-iframe';
-        iframe.setAttribute('src', `https://www.youtube-nocookie.com/embed/${window._currentVideoId}?autoplay=1&rel=0&modestbranding=1`);
+        iframe.setAttribute('src', `https://www.youtube-nocookie.com/embed/${window._currentVideoId}?autoplay=1&rel=0&modestbranding=1&enablejsapi=1`);
         iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
         iframe.setAttribute('allowfullscreen', '');
         iframe.setAttribute('frameborder', '0');
@@ -4216,8 +4217,20 @@ function setupPipScroll() {
   _pipObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (!isPlaying) return;
-      if (!entry.isIntersecting && !_pipVisible) showPip(currentStoryIndex);
-      if (entry.isIntersecting && _pipVisible) closePip();
+      const iframe = document.getElementById('sv-yt-iframe');
+      if (iframe && iframe.contentWindow) {
+        if (!entry.isIntersecting) {
+          // Pause YouTube when scrolled out of view
+          iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+        } else {
+          // Resume when scrolled back into view
+          iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+        }
+      } else {
+        // Native video fallback
+        if (!entry.isIntersecting && !_pipVisible) showPip(currentStoryIndex);
+        if (entry.isIntersecting && _pipVisible) closePip();
+      }
     });
   }, { threshold: 0.1 });
   _pipObserver.observe(videoShell);
