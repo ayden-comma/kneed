@@ -3556,7 +3556,7 @@ function showStory(index) {
   if (existingIframe) existingIframe.remove();
   const video = document.getElementById('sv-video');
   if (video) { video.src = ''; video.style.opacity = '0'; }
-  isPlaying = false; fakeSeconds = 0; stopFakeProgress();
+  isPlaying = false; fakeSeconds = 0; stopFakeProgress(); _userPaused = false;
   const playBtn = document.getElementById('sv-play-btn');
   if (playBtn) { playBtn.classList.remove('is-hidden'); playBtn.style.display = ''; }
   const controls = document.querySelector('.story-video-controls');
@@ -3725,6 +3725,7 @@ function togglePlay() {
   const vcSvg = document.getElementById('vc-play-svg');
   if (!isPlaying) {
     isPlaying = true;
+    _userPaused = false;
     setupPipScroll();
 
     // If this story has a YouTube video, embed it
@@ -3757,6 +3758,7 @@ function togglePlay() {
     if (vcSvg) vcSvg.innerHTML = '<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>';
   } else {
     isPlaying = false;
+    _userPaused = true;
     if (playBtn) playBtn.classList.remove('is-hidden');
     if (vcSvg) vcSvg.innerHTML = '<polygon points="6,4 20,12 6,20"/>';
     stopFakeProgress();
@@ -4213,6 +4215,8 @@ function updatePipProgress() {
 
 /* Wire PiP to appear when main video scrolls out of view */
 let _pipObserver = null;
+let _userPaused = false; // tracks if user manually paused
+
 function setupPipScroll() {
   if (_pipObserver) { _pipObserver.disconnect(); _pipObserver = null; }
   const storyPage = document.getElementById('story-page');
@@ -4225,11 +4229,15 @@ function setupPipScroll() {
       const iframe = document.getElementById('sv-yt-iframe');
       if (iframe && iframe.contentWindow) {
         if (!entry.isIntersecting) {
-          // Pause YouTube when scrolled out of view
+          // Scrolled away — show PiP and pause YouTube
+          if (!_pipVisible) showPip(currentStoryIndex);
           iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
         } else {
-          // Resume when scrolled back into view
-          iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+          // Scrolled back — only resume if user didn't manually pause
+          if (_pipVisible) closePip();
+          if (!_userPaused) {
+            iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+          }
         }
       } else {
         // Native video fallback
