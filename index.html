@@ -2834,7 +2834,7 @@ src="https://www.facebook.com/tr?id=3290406697805340&ev=PageView&noscript=1"
 </div>
 
 <!-- PERSISTENT MINI PLAYER -->
-<div class="pip-player" id="pip-player">
+<div class="pip-player" id="pip-player" style="display:none!important">
   <div class="pip-progress"><div class="pip-progress-fill" id="pip-fill"></div></div>
   <div class="pip-video-wrap">
     <img id="pip-poster" src="" alt="" />
@@ -3170,7 +3170,7 @@ function showPage(id) {
   // Close map popup when leaving map page
   if (id !== 'map-page') closeMapPopup();
   // Disconnect PiP observer when leaving story page
-  if (id !== 'story-page' && _pipObserver) { _pipObserver.disconnect(); _pipObserver = null; closePip(); }
+  if (id !== 'story-page' && _pipObserver) { _pipObserver.disconnect(); _pipObserver = null; }
   // Render watchlist page fresh each time
   if (id === 'watchlist-page') renderWatchlistPage();
   // Re-animate know page cards each time it's opened
@@ -3212,7 +3212,7 @@ let heroTransitioning = false;
 (function() {
   let touchStartX = 0;
   let touchStartY = 0;
-  document.addEventListener('DOMContentLoaded', function() {
+  function attachHeroTouch() {
     const hero = document.querySelector('.hero-section');
     if (!hero) return;
     hero.addEventListener('touchstart', function(e) {
@@ -3230,7 +3230,12 @@ let heroTransitioning = false;
         }
       }
     }, { passive: true });
-  });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', attachHeroTouch);
+  } else {
+    attachHeroTouch();
+  }
 })();
 
 
@@ -3625,10 +3630,8 @@ function showStory(index) {
   // Watchlist button state
   loadWatchlist().then(() => updateWatchlistBtn(index));
   // Setup PiP scroll observer
-  setTimeout(setupPipScroll, 300);
-  // Close PiP if returning to this story
-  if (_pipStoryIdx === index) closePip();
-  const related = STORIES.filter((_, i) => i !== index).slice(0, 3);
+    // Close PiP if returning to this story
+    const related = STORIES.filter((_, i) => i !== index).slice(0, 3);
   const relEl = document.getElementById('sv-related');
   if (relEl) relEl.innerHTML = related.map(rs => storyCard(rs, STORIES.indexOf(rs))).join('');
   showPage('story-page');
@@ -3726,8 +3729,7 @@ function togglePlay() {
   if (!isPlaying) {
     isPlaying = true;
     _userPaused = false;
-    setupPipScroll();
-
+    
     // If this story has a YouTube video, embed it
     if (window._currentVideoId) {
       // Fully remove overlay elements so YouTube UI shows cleanly
@@ -4229,20 +4231,8 @@ function setupPipScroll() {
       const iframe = document.getElementById('sv-yt-iframe');
       if (iframe && iframe.contentWindow) {
         if (!entry.isIntersecting) {
-          // Scrolled away — show PiP and pause YouTube
-          if (!_pipVisible) showPip(currentStoryIndex);
           iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
-        } else {
-          // Scrolled back — only resume if user didn't manually pause
-          if (_pipVisible) closePip();
-          if (!_userPaused) {
-            iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-          }
         }
-      } else {
-        // Native video fallback
-        if (!entry.isIntersecting && !_pipVisible) showPip(currentStoryIndex);
-        if (entry.isIntersecting && _pipVisible) closePip();
       }
     });
   }, { threshold: 0.1 });
