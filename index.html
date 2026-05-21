@@ -2095,7 +2095,6 @@ src="https://www.facebook.com/tr?id=3290406697805340&ev=PageView&noscript=1"
     <button class="nav-link" onclick="showStoryList('Bakeries','Neighbourhood rooms, old ovens and places worth travelling for.')">Bakeries</button>
     <button class="nav-link" onclick="showPage('know-page')">(K)Need to Know</button>
     <button class="nav-link" onclick="showPage('map-page'); setTimeout(initMap,100);">Find Good Bread</button>
-    <button class="nav-link" onclick="showPage('store-page')">Store</button>
     <button class="nav-link" onclick="showPage('about-page')">About</button>
   </nav>
 </header>
@@ -2189,23 +2188,7 @@ src="https://www.facebook.com/tr?id=3290406697805340&ev=PageView&noscript=1"
       <div class="grid-4" id="film-rail"></div>
     </div>
   </section>
-
-  <!-- STORE GRID -->
-  <section class="wf-container mt-section">
-    <div class="wf-section-head">
-      <div>
-        <div class="wf-eyebrow">Store</div>
-        <h2>Objects &amp; Editions</h2>
-      </div>
-      <button class="see-all-btn" onclick="showPage('store-page')">
-        View store <span class="arrow-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 5 7 7-7 7"/></svg></span>
-      </button>
-    </div>
-    <div class="grid-4" id="home-store-grid"></div>
-  </section>
-
-
-  <!-- (K)NEED TO KNOW -->
+<!-- (K)NEED TO KNOW -->
   <section class="wf-container mt-section">
     <div class="wf-section-head">
       <div>
@@ -2424,45 +2407,26 @@ src="https://www.facebook.com/tr?id=3290406697805340&ev=PageView&noscript=1"
         <p class="wf-page-intro" id="list-intro" style="margin-top:0.5rem;"></p>
       </div>
     </div>
+    <!-- Full-width search bar -->
+    <div style="
+      display:flex; align-items:center; gap:0.75rem;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--r-pill); padding: 0.65rem 1rem;
+      margin-bottom: 1.75rem;
+    ">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="15" height="15" style="color:var(--p-35); flex-shrink:0;"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="list-search-input" type="search" placeholder="Search bakeries…"
+        oninput="filterListGrid(this.value)"
+        style="flex:1; background:transparent; border:none; outline:none; color:var(--parchment); font-family:var(--font-body); font-size:0.875rem; font-weight:300; min-width:0;"
+      />
+    </div>
     <div class="grid-3" id="list-grid"></div>
   </div>
 </main>
 
-<!-- STORE PAGE -->
-<main id="store-page" class="wf-page">
-  <div class="wf-container py-page">
-    <button class="back-btn" onclick="showPage('home-page')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>Back home</button>
-    <div class="wf-page-head" style="max-width:none; display:grid; gap:2rem;" id="store-head-grid">
-      <div>
-        <div class="wf-eyebrow">Store</div>
-        <h1 class="wf-page-h1">Objects for the bench,<br>the kitchen and the shelf.</h1>
-      </div>
-      <p class="wf-page-intro">A Shopify-style store for merch, tools, books, limited editions and bakery collaborations.</p>
-    </div>
-    <div class="grid-4" id="store-grid"></div>
-  </div>
-</main>
 
-<!-- PRODUCT VIEW -->
-<main id="product-page" class="wf-page">
-  <div class="wf-container py-page">
-    <button class="back-btn" onclick="showPage('store-page')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>Back to store</button>
-    <div class="product-grid">
-      <div class="product-image-frame"><img id="pv-img" src="" alt="" style="aspect-ratio:4/5; height:auto;" /></div>
-      <div class="product-info">
-        <span class="product-store-tag">(K)Need Store</span>
-        <h1 class="product-name" id="pv-name"></h1>
-        <div class="product-price" id="pv-price"></div>
-        <p class="product-desc" id="pv-desc"></p>
-        <div class="product-details" id="pv-details"></div>
-        <div class="product-actions">
-          <button class="wf-pill pill-amber"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M6 8h12l-1 12H7L6 8Z"/><path d="M9 8a3 3 0 0 1 6 0"/></svg>Add to cart</button>
-          <button class="wf-pill pill-light">Save for later</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</main>
+
+
 
 <!-- SEARCH PAGE -->
 <main id="search-page" class="wf-page">
@@ -2489,7 +2453,6 @@ src="https://www.facebook.com/tr?id=3290406697805340&ev=PageView&noscript=1"
       <div class="menu-nav-label">Explore</div>
       <button class="menu-nav-item" onclick="closeMenu(); showStoryList('Bakeries','Neighbourhood rooms, old ovens and places worth travelling for.')">Bakeries<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 5 7 7-7 7"/></svg></button>
       <button class="menu-nav-item" onclick="closeMenu(); showPage('know-page')">(K)Need to Know<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 5 7 7-7 7"/></svg></button>
-      <button class="menu-nav-item" onclick="closeMenu(); showPage('store-page')">Store<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 5 7 7-7 7"/></svg></button>
       <button class="menu-nav-item" onclick="closeMenu(); showPage('about-page')">About<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 5 7 7-7 7"/></svg></button>
       <button class="menu-nav-item" onclick="closeMenu(); showPage('map-page'); setTimeout(initMap,100);">Find Good Bread<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg></button>
       <button class="menu-nav-item" onclick="closeMenu(); showPage('search-page')">Search<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
@@ -2873,7 +2836,6 @@ src="https://www.facebook.com/tr?id=3290406697805340&ev=PageView&noscript=1"
           <button class="footer-link" onclick="showStoryList('Bakeries','Neighbourhood rooms, old ovens and places worth travelling for.')">Bakeries</button>
           <button class="footer-link" onclick="showPage('map-page'); setTimeout(initMap,100);">Find Good Bread</button>
           <button class="footer-link" onclick="showPage('know-page')">(K)Need to Know</button>
-          <button class="footer-link" onclick="showPage('store-page')">Store</button>
           <button class="footer-link" onclick="showPage('about-page')">About</button>
           <button class="footer-link" onclick="showPage('submit-page')">Submit</button>
           <button class="footer-link" onclick="openAuth()">Join</button>
@@ -3182,24 +3144,7 @@ function showPage(id) {
     const g = document.getElementById('know-grid');
     if (g) _knowDropIn(g, KNOW_POSTS);
   }
-  if (id === 'store-page') {
-    const g = document.getElementById('store-grid');
-    if (g) {
-      g.innerHTML = '';
-      PRODUCTS.forEach((p, i) => {
-        const wrap = document.createElement('div');
-        wrap.innerHTML = productCard(p, i);
-        const card = wrap.firstElementChild;
-        card.style.opacity = '0'; card.style.transform = 'translateY(-20px)';
-        g.appendChild(card);
-        setTimeout(() => {
-          card.style.transition = 'opacity .6s ease, transform .75s cubic-bezier(.16,1,.3,1)';
-          card.style.opacity = '1'; card.style.transform = 'translateY(0)';
-          setTimeout(() => { card.style.transition = ''; card.style.opacity = ''; card.style.transform = ''; }, 760);
-        }, 60 + i * 90);
-      });
-    }
-  }
+
   // Render discovery page fresh each time
   
 }
@@ -3407,7 +3352,7 @@ function productCard(product, index) {
         <span class="tile-badge tile-badge-dk">${product.price}</span>
       </div>
       <div class="tile-body">
-        <div class="tile-eyebrow">Store</div>
+        
         <h3 class="tile-title">${product.name}</h3>
         <p class="tile-desc">${product.description}</p>
       </div>
@@ -3534,21 +3479,6 @@ function populateHome() {
   }
 
   const fullStoreGrid = document.getElementById('store-grid');
-  if (fullStoreGrid) {
-    fullStoreGrid.innerHTML = '';
-    PRODUCTS.forEach((p, i) => {
-      const wrap = document.createElement('div');
-      wrap.innerHTML = productCard(p, i);
-      const card = wrap.firstElementChild;
-      card.style.opacity = '0'; card.style.transform = 'translateY(-20px)';
-      fullStoreGrid.appendChild(card);
-      setTimeout(() => {
-        card.style.transition = 'opacity .6s ease, transform .75s cubic-bezier(.16,1,.3,1)';
-        card.style.opacity = '1'; card.style.transform = 'translateY(0)';
-        setTimeout(() => { card.style.transition = ''; card.style.opacity = ''; card.style.transform = ''; }, 760);
-      }, 60 + i * 90);
-    });
-  }
 }
 
 /* ─── STORY PAGE ─────────────────────────────────────────────────── */
@@ -3667,12 +3597,25 @@ function _listCancelAll() {
   });
 }
 
+function filterListGrid(query) {
+  const q = query.toLowerCase().trim();
+  const grid = document.getElementById('list-grid');
+  if (!grid) return;
+  grid.querySelectorAll('[data-search]').forEach(card => {
+    const text = (card.getAttribute('data-search') || '').toLowerCase();
+    card.style.display = (!q || text.includes(q)) ? '' : 'none';
+  });
+}
+
 function showStoryList(title, intro) {
   const t = document.getElementById('list-title');
   const i = document.getElementById('list-intro');
   const g = document.getElementById('list-grid');
   if (t) t.textContent = title;
   if (i) i.textContent = intro;
+  // Reset search
+  const inp = document.getElementById('list-search-input');
+  if (inp) { inp.value = ''; }
   showPage('list-page');
 
   if (!g) return;
@@ -3683,6 +3626,7 @@ function showStoryList(title, intro) {
     const wrap = document.createElement('div');
     wrap.innerHTML = storyCard(s, idx);
     const card = wrap.firstElementChild;
+    card.setAttribute('data-search', `${s.title || ''} ${s.subtitle || ''} ${s.eyebrow || ''} ${s.location || ''}`);
     card.style.opacity   = '0';
     card.style.transform = 'translateY(-20px)';
     g.appendChild(card);
@@ -3709,7 +3653,6 @@ function showProduct(index) {
   setEl('pv-name', p.name); setEl('pv-price', p.price); setEl('pv-desc', p.description);
   const details = document.getElementById('pv-details');
   if (details) details.innerHTML = p.details.map(d => `<p class="product-detail">${d}</p>`).join('');
-  showPage('product-page');
 }
 
 /* ─── SEARCH ─────────────────────────────────────────────────────── */
@@ -4046,32 +3989,7 @@ function closeMenu() { const d = document.getElementById('menu-drawer'); if (!d)
 function scrollRail() {}
 function updateRailArrows() {}
 
-/* ─── STORE GRID ─────────────────────────────────────────────────── */
-function setStoreGrid() {
-  const g = document.getElementById('store-head-grid');
-  if (g) g.style.gridTemplateColumns = window.innerWidth >= 768 ? '1fr 0.8fr' : '1fr';
-}
 
-/* bottom dots handled by goHeroSlide() */
-
-/* ─── TICKER DUPLICATION ─────────────────────────────────────────── */
-const ticker = document.getElementById('hero-ticker');
-if (ticker) { const clone = ticker.cloneNode(true); ticker.parentNode.appendChild(clone); }
-
-/* ─── KEYBOARD ───────────────────────────────────────────────────── */
-document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeMenu(); closeAuth(); } });
-
-/* ─── INIT ───────────────────────────────────────────────────────── */
-
-
-try { if (localStorage.getItem('kneed-theme') === 'light') document.body.classList.add('light-mode'); } catch(e) {}
-buildHeroTitle();
-populateHome();
-populateKnow();
-loadWatchlist();
-filterSearch('');
-setStoreGrid();
-window.addEventListener('resize', setStoreGrid);
 /* ─── MAP ──────────────────────────────────────────────────────────── */
 const BAKERY_DATA = [
   { storyIdx:0, name:'Tivoli Road Bakery', cat:'Sourdough', area:'inner-south', tags:['sourdough','has-film'], suburb:'South Yarra', desc:'Country sourdough on a 14-year-old starter. Stone-milled Victorian flour, overnight ferment, extraordinary shelf life.', lat:-37.8393541, lng:144.9980183, addr:'3 Tivoli Rd, South Yarra VIC 3141', hours:'Mon–Sun 7am–2:30pm', website:'tivoliroadbakery.com.au', img:'https://images.pexels.com/photos/36445170/pexels-photo-36445170.jpeg?auto=compress&cs=tinysrgb&w=600', featured:true },
